@@ -34,6 +34,10 @@ GET /t
 nameservers: 3 127.0.1.15353 1.2.3.453 4.5.6.753
 --- user_files
 >>> resolv.conf
+# nameserver updated  in comentary
+#nameserver updated  in comentary
+#comentary nameserver 1.2.3.4
+#comentary nameserver
 nameserver 1.2.3.4
 nameserver 4.5.6.7
 

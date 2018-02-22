@@ -131,12 +131,15 @@ function _M.parse_nameservers(path)
     -- see https://github.com/3scale/apicast/issues/321 for more details
     insert(nameservers, resolver)
   end
-
-  for server in gmatch(resolv_conf, 'nameserver%s+([^%s]+)') do
-    -- TODO: implement port matching based on https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=549190
-    if server ~= resolver then
-      insert(nameservers, nameserver.new(server))
-    end
+  
+  for line in gmatch(resolv_conf, '(.*)\n]') do
+   for server in gmatch(line, '^nameserver%s+([^%s]+)') do
+     -- TODO: implement port matching based on https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=549190
+     if server ~= resolver then
+       ngx.log(ngx.DEBUG, 'servername: ', server)
+       insert(nameservers, nameserver.new(server))
+     end
+   end
   end
 
   return nameservers
